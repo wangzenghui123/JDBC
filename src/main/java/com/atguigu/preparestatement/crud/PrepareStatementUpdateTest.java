@@ -24,11 +24,82 @@ public class PrepareStatementUpdateTest {
         properties = new Properties();
         //加载驱动
         try {
-            Class.forName(properties.getProperty("class"));
             properties.load(resourceAsStream);
+            Class.forName(properties.getProperty("class"));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @Test
+    public void testUpdate(){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"));
+            String sql = "update customers set name = ? where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,"张思");
+            preparedStatement.setString(2,"2");
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            try {
+                if(connection != null){
+                    connection.close();
+                }
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+
+
+    }
+
+    @Test
+    public void testDelete(){
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean execute = false;
+        try {
+            connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"));
+            String sql = "delete from customers where id = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,"19");
+            execute = preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+
+                if(preparedStatement != null){
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            try {
+                if(connection != null){
+                    connection.close();
+                }
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        System.out.println(execute);
 
     }
     @Test

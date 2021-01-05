@@ -1,10 +1,7 @@
 package com.atguigu.utils;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 
 public class JDBCUtil {
@@ -15,8 +12,8 @@ public class JDBCUtil {
         properties = new Properties();
         //加载驱动
         try {
-            Class.forName(properties.getProperty("class"));
             properties.load(resourceAsStream);
+            Class.forName(properties.getProperty("class"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,7 +23,14 @@ public class JDBCUtil {
        Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"));
         return connection;
     }
-    public static void closeResource(Connection connection, Statement ps){
+    public static void closeResource(Connection connection, Statement ps, ResultSet rs){
+        try {
+            if(rs != null){
+                rs.close();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         try {
             if(ps != null){
                 ps.close();
