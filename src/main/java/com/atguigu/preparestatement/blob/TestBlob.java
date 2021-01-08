@@ -15,7 +15,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+//插入Blob数据
 public class TestBlob {
     @Test
     public void testBlob() throws Exception {
