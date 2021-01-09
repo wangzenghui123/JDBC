@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.Date;
@@ -25,11 +26,11 @@ public class TestInsertBlob {
         boolean b = insertFile(sql, "张十二", "zhangsher@qq.com", date, URLDecoder.decode(filePath,"utf-8"));
     }
     @Test
-    public void testDate(){
+    public void testDate() throws UnsupportedEncodingException {
         Date date = new Date(new java.util.Date().getTime());
         System.out.println(date);
         String resource = TestInsertBlob.class.getClassLoader().getResource("报名照片.jpg").getFile();
-        System.out.println(resource);
+        System.out.println(URLDecoder.decode(resource,"utf-8"));
     }
     @Test
     public void changeName(){

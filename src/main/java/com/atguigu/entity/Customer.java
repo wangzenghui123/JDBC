@@ -1,5 +1,6 @@
 package com.atguigu.entity;
 
+import java.io.File;
 import java.sql.Date;
 
 
@@ -12,9 +13,9 @@ public class Customer {
 
     private Date birth;
 
-    private String photo;
+    private File photo;
 
-    public Customer(int id, String name, String email, Date birth, String photo) {
+    public Customer(int id, String name, String email, Date birth, File photo) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -57,11 +58,11 @@ public class Customer {
         this.birth = birth;
     }
 
-    public String getPhoto() {
+    public File getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(File photo) {
         this.photo = photo;
     }
 
