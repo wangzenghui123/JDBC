@@ -113,6 +113,42 @@ public class TestBatchInsert {
         }
     }
 
+    //方式四:设置不允许自动提交
+    //setAutoCommit()失效，我是用mysql可视化软件创建的数据库，创建数据表的时候数据库引擎默认用的是MyISAM不支持事务,要改成InnoDB才行
+    @Test
+    public void testBatchInsert02(){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            long start = System.currentTimeMillis();
+            conn = JDBCUtil.getConnection();
+            conn.setAutoCommit(false);
+            String sql = "insert into goods(name) values(?)";
+            ps = conn.prepareStatement(sql);
+            for (int i = 0; i < 1000000; i++) {
+                ps.setObject(1,"name_"+i);
+                ps.addBatch();
+                if(i % 500 == 0){
+                    ps.executeBatch();
+                    ps.clearBatch();
+                }
+            }
+            conn.commit();
+            long end = System.currentTimeMillis();
+            System.out.println((double)(end - start)/1000);
+        } catch (Exception throwables) {
+            try {
+                if(conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
+        JDBCUtil.closeResource(conn,ps,null);
+        }
+    }
+
     public static void main(String[] args) {
         new BatchInsert().start();
         new BatchInsert().start();
