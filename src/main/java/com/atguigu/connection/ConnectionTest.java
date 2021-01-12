@@ -1,5 +1,6 @@
 package com.atguigu.connection;
 
+import com.atguigu.utils.JDBCUtils;
 import com.mysql.cj.jdbc.Driver;
 import org.junit.Test;
 
@@ -19,6 +20,8 @@ public class ConnectionTest {
         String url = "jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8";
         Connection connect = driver.connect(url, properties);
         System.out.println(connect);
+        Connection connection = JDBCUtils.getConnection();
+        System.out.println(connection);
     }
 
     //移除第三方jar包
